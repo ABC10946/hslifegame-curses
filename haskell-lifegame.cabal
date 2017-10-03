@@ -3,7 +3,7 @@ version:             0.1.0.0
 -- synopsis:
 -- description:
 homepage:            https://github.com/githubuser/haskell-lifegame#readme
-license:             BSD3
+license:             MIT
 license-file:        LICENSE
 author:              ABC10946
 maintainer:          alphalex10946@gmail.com
