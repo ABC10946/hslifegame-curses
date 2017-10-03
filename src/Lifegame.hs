@@ -1,13 +1,15 @@
-module Lib
-    ( someFunc
+module Lifegame
+    ( ScreenSize,
+      Field,
+      Line,
+      Position,
+      LinePosition,
+      countLifeInMooreNH,
+      cellToZeroOne,
+      initField,
+      fieldChange,
+      printField
     ) where
-
-someFunc :: IO ()
-someFunc = do
-    let field = (foldl (fieldChange True) (initField (10,10))) [(0,0),(0,1),(0,2)]
-    printField field
-
-    print $ countLifeInMooreNH field (0,1)
 
 type ScreenSize = (Int,Int)
 type Field = [[Bool]]

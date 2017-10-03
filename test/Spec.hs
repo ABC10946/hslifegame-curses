@@ -1,2 +1,5 @@
+import Lifegame
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = do
+    printField $ initField (10,10)
