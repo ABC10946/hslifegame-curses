@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Lifegame
 
 main :: IO ()
-main = someFunc
+main = return ()

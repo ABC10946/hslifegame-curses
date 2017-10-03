@@ -3,7 +3,7 @@ version:             0.1.0.0
 -- synopsis:
 -- description:
 homepage:            https://github.com/githubuser/haskell-lifegame#readme
-license:             BSD3
+license:             MIT
 license-file:        LICENSE
 author:              ABC10946
 maintainer:          alphalex10946@gmail.com
@@ -15,9 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib
+  exposed-modules:     Lifegame
   build-depends:       base >= 4.7 && < 5
-                     , hscurses
   default-language:    Haskell2010
 
 executable haskell-lifegame-exe
