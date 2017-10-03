@@ -4,8 +4,10 @@ module Lib
 
 someFunc :: IO ()
 someFunc = do
-    let field = fieldChange (2,2) (initField (10,10)) True
+    let field = (foldl (fieldChange True) (initField (10,10))) [(0,0),(0,1),(0,2)]
     printField field
+
+    print $ countLifeInMooreNH field (0,1)
 
 type ScreenSize = (Int,Int)
 type Field = [[Bool]]
@@ -13,15 +15,24 @@ type Line = [Bool]
 type Position = (Int,Int)
 type LinePosition = Int
 
+countLifeInMooreNH :: Field -> Position -> Int
+countLifeInMooreNH field (x,y) = (foldl (+) 0) (map (cellToZeroOne field) [(x-1,y-1),(x,y-1),(x+1,y-1),(x-1,y),(x+1,y),(x-1,y+1),(x,y+1),(x+1,y+1)])
 
+cellToZeroOne :: Field -> Position -> Int
+cellToZeroOne field (x,y)
+    |x >= 0 && y >= 0 && x < (length (field !! 0)) && y < (length field) = boolToZeroOne (field !! y !! x)
+    |otherwise = 0
+
+boolToZeroOne :: Bool -> Int
+boolToZeroOne cell = if cell then 1 else 0
 
 initField :: ScreenSize -> Field
 initField (width,height) = take height $ repeat $ take width $ repeat False
 
-fieldChange :: Position -> Field -> Bool -> Field
-fieldChange (x,y) (line:lines) newValue
+fieldChange :: Bool -> Field -> Position -> Field
+fieldChange newValue (line:lines) (x,y)
     |y == 0 = newLine:lines
-    |otherwise = line:(fieldChange (x,y-1) lines newValue)
+    |otherwise = line:(fieldChange newValue lines (x,y-1))
     where
         newLine = lineChange x line newValue
         
