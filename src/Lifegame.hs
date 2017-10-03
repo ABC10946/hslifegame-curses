@@ -8,7 +8,8 @@ module Lifegame
       cellToZeroOne,
       initField,
       fieldChange,
-      printField
+      printField,
+      step
     ) where
 
 type ScreenSize = (Int,Int)
@@ -16,6 +17,10 @@ type Field = [[Bool]]
 type Line = [Bool]
 type Position = (Int,Int)
 type LinePosition = Int
+
+step :: Field -> Field
+step field = [[lifeOrDead field (x,y) | x <- [0,1..((length (field !! 0))-1)]]| y <- [0,1..((length field)-1)]]
+
 
 lifeOrDead :: Field -> Position -> Bool
 lifeOrDead field pos
