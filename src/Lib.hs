@@ -4,16 +4,27 @@ module Lib
 
 someFunc :: IO ()
 someFunc = do
-    let field = (foldl (fieldChange True) (initField (10,10))) [(0,0),(0,1),(0,2)]
+    let screenSize = (10,10)
+    let field = (foldl (fieldChange True) (initField screenSize)) [(5,5),(5,6),(5,7)]
     printField field
-
-    print $ countLifeInMooreNH field (0,1)
+    print $ countLifeInMooreNH field (5,6)
 
 type ScreenSize = (Int,Int)
 type Field = [[Bool]]
 type Line = [Bool]
 type Position = (Int,Int)
 type LinePosition = Int
+
+lifeOrDead :: Field -> Position -> Bool
+lifeOrDead field pos
+    |((countLifeInMooreNH field pos) >= 4) = False
+    |((countLifeInMooreNH field pos) == 3) = True
+    |((countLifeInMooreNH field pos) >= 2) = (checkCell field pos)
+    |otherwise = False
+    
+
+checkCell :: Field -> Position -> Bool
+checkCell field (x,y) = field !! y !! x
 
 countLifeInMooreNH :: Field -> Position -> Int
 countLifeInMooreNH field (x,y) = (foldl (+) 0) (map (cellToZeroOne field) [(x-1,y-1),(x,y-1),(x+1,y-1),(x-1,y),(x+1,y),(x-1,y+1),(x,y+1),(x+1,y+1)])
