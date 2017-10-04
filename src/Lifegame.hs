@@ -4,8 +4,6 @@ module Lifegame
       Line,
       Position,
       LinePosition,
-      countLifeInMooreNH,
-      cellToZeroOne,
       initField,
       fieldChange,
       printField,
