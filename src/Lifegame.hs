@@ -7,7 +7,8 @@ module Lifegame
       initField,
       fieldChange,
       printField,
-      step
+      step,
+      addSentineled
     ) where
 
 type ScreenSize = (Int,Int)
@@ -58,10 +59,18 @@ lineChange linePos (x:xs) newValue
     |linePos == 0 = newValue:xs
     |otherwise = x:(lineChange (linePos-1) xs newValue)
 
+
 printField :: Field -> IO ()
-printField field = do
-    let field_ = fieldToString field
-    putStrLn field_
+printField field = putStrLn $ fieldToString field
+
+
+addSentineled :: Field -> Field
+addSentineled field = field_
+    where
+        field_ = [[x|x <- (cutHeadAndTail line)]|line <- (cutHeadAndTail field)]
+
+cutHeadAndTail :: [a] -> [a]
+cutHeadAndTail (x:xs) = init xs
 
 lineToString :: Line -> String
 lineToString line = jointStringList [if x then "#" else "_"|x <- line]
