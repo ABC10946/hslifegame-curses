@@ -8,7 +8,9 @@ module Lifegame
       fieldChange,
       printField,
       step,
-      addSentineled
+      addSentineled,
+      fieldToString,
+      lineToString
     ) where
 
 type ScreenSize = (Int,Int)
