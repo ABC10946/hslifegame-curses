@@ -31,11 +31,10 @@ cursesOutput field lineCount = do
 
 loop :: Field -> IO ()
 loop field = do
-    let sentineledField = addSentineled $ addSentineled field 
+    let sentineledField = addSentineled $ addSentineled field
     cursesOutput sentineledField (length sentineledField)
     Curses.refresh
     CursesHelper.gotoTop
-    Curses.timeout 500
-    c <- CursesHelper.getKey (return ())
-    case CursesHelper.displayKey c of "q" -> quitTask
-                                      _   -> loop (step field)
+    c <- Curses.getch
+    case CursesHelper.displayKey (Curses.decodeKey c) of "q" -> quitTask
+                                                         _   -> loop (step field)
