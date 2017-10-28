@@ -7,7 +7,6 @@ import System.Exit (exitWith,ExitCode (..))
 
 main :: IO ()
 main = do
-    -- loop field 100
     CursesHelper.start
     (height,width) <- Curses.scrSize
     let fieldInit = Lifegame.initField (width,height)
