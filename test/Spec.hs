@@ -32,7 +32,7 @@ cursesOutput field lineCount = do
 loop :: Field -> Int -> IO ()
 loop field times = do
     if times /= 0 then do
-        printField $ addSentineled $ addSentineled field
+        printField $ addSentinel $ addSentinel field
         loop (step field) (times-1)
     else
         return ()

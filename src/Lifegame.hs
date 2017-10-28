@@ -8,7 +8,7 @@ module Lifegame
       fieldChange,
       printField,
       step,
-      addSentineled,
+      addSentinel,
       fieldToString,
       lineToString
     ) where
@@ -66,8 +66,8 @@ printField :: Field -> IO ()
 printField field = putStrLn $ fieldToString field
 
 
-addSentineled :: Field -> Field
-addSentineled field = field_
+addSentinel :: Field -> Field
+addSentinel field = field_
     where
         field_ = [[x|x <- (cutHeadAndTail line)]|line <- (cutHeadAndTail field)]
 

@@ -3,7 +3,6 @@ module Main where
 import Lifegame
 import qualified UI.HSCurses.Curses as Curses
 import qualified UI.HSCurses.CursesHelper as CursesHelper
-import Control.Monad (forever)
 import System.Exit (exitWith,ExitCode (..))
 
 main :: IO ()
@@ -31,7 +30,8 @@ cursesOutput field lineCount = do
 
 loop :: Field -> IO ()
 loop field = do
-    let sentineledField = addSentineled $ addSentineled field
+    Curses.timeout 1000
+    let sentineledField = addSentinel $ addSentinel field
     cursesOutput sentineledField (length sentineledField)
     Curses.refresh
     CursesHelper.gotoTop
