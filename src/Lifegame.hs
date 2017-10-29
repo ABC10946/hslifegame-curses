@@ -10,7 +10,8 @@ module Lifegame
       step,
       addSentinel,
       fieldToString,
-      lineToString
+      lineToString,
+      fieldFlip
     ) where
 
 type ScreenSize = (Int,Int)
@@ -47,6 +48,13 @@ boolToZeroOne cell = if cell then 1 else 0
 
 initField :: ScreenSize -> Field
 initField (width,height) = take height $ repeat $ take width $ repeat False
+
+fieldFlip :: Field -> Position -> Field
+fieldFlip field pos = 
+    if checkCell field pos then
+        fieldChange False field pos
+    else
+        fieldChange True field pos
 
 fieldChange :: Bool -> Field -> Position -> Field
 fieldChange newValue (line:lines) (x,y)

@@ -11,9 +11,8 @@ main :: IO ()
 main = do
     CursesHelper.start
     (height,width) <- Curses.scrSize
-    let fieldInit = Lifegame.initField (width,height)
-    let field = (foldl (fieldChange True) fieldInit) [(5,5),(6,6),(6,7),(5,7),(4,7)]
-    loop field Play
+    let field = Lifegame.initField ((width+3),(height+3))
+    loop field Play (0,0)
 
 quitTask :: IO ()
 quitTask = do
@@ -29,26 +28,34 @@ cursesOutput field lineCount = do
     else
         return ()
 
-loop :: Field -> Mode -> IO ()
-loop field mode = do
+loop :: Field -> Mode -> (Int,Int) -> IO ()
+loop field mode (x,y) = do
     Curses.timeout 1000
     let sentineledField = addSentinel $ addSentinel field
-    cursesOutput sentineledField (length sentineledField)
-    Curses.refresh
     CursesHelper.gotoTop
+    cursesOutput sentineledField (length sentineledField)
+    Curses.move y x
+    Curses.refresh
     c <- CursesHelper.displayKey <$> Curses.decodeKey <$> Curses.getch
+
+    (height,width) <- Curses.scrSize
 
     case c of
         "q" -> quitTask
-        "f" -> loop field (changeMode mode)
+        "f" -> loop field (changeMode mode) (x,y)
+        "h" -> loop field mode ((max (x-1) 0),y)
+        "l" -> loop field mode ((min (x+1) (width-1)),y)
+        "k" -> loop field mode (x,(max (y-1) 0))
+        "j" -> loop field mode (x,(min (y+1) (height-1)))
+        "o" -> loop (fieldFlip field (x+2,y+2)) mode (x,y)
         _   -> nextLoop mode
 
     where
         nextLoop :: Mode -> IO ()
         nextLoop mode
-            |mode == Play = loop (step field) mode
-            |mode == Stop = loop field mode
+            |mode == Play = loop (step field) mode (x,y)
+            |mode == Stop = loop field mode (x,y)
 
-changeMode :: Mode -> Mode
-changeMode Play = Stop
-changeMode Stop = Play
+        changeMode :: Mode -> Mode
+        changeMode Play = Stop
+        changeMode Stop = Play
