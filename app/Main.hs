@@ -36,10 +36,12 @@ loop field mode = do
     cursesOutput sentineledField (length sentineledField)
     Curses.refresh
     CursesHelper.gotoTop
-    c <- Curses.getch
-    case CursesHelper.displayKey (Curses.decodeKey c) of "q" -> quitTask
-                                                         "f" -> loop field (changeMode mode)
-                                                         _   -> nextLoop mode
+    c <- CursesHelper.displayKey <$> Curses.decodeKey <$> Curses.getch
+
+    case c of
+        "q" -> quitTask
+        "f" -> loop field (changeMode mode)
+        _   -> nextLoop mode
 
     where
         nextLoop :: Mode -> IO ()
